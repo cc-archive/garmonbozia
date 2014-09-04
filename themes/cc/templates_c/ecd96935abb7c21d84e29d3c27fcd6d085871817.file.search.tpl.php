@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2014-08-26 16:18:27
+<?php /* Smarty version Smarty-3.1-DEV, created on 2014-09-03 20:07:36
          compiled from "/home/mattl/dev/garmonbozia/themes/cc/templates/search.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:33116281553fb87823d8688-83719352%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ecd96935abb7c21d84e29d3c27fcd6d085871817' => 
     array (
       0 => '/home/mattl/dev/garmonbozia/themes/cc/templates/search.tpl',
-      1 => 1409084305,
+      1 => 1409789254,
       2 => 'file',
     ),
   ),
@@ -37,7 +37,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 foreach ($_from as $_smarty_tpl->tpl_vars['r']->key => $_smarty_tpl->tpl_vars['r']->value){
 $_smarty_tpl->tpl_vars['r']->_loop = true;
 ?>
-  <li><img src="<?php echo $_smarty_tpl->tpl_vars['r']->value['image'];?>
+  <li><img src="<?php echo $_smarty_tpl->tpl_vars['r']->value['thumb'];?>
 " width="100" title="<?php echo $_smarty_tpl->tpl_vars['r']->value['title'];?>
 " /></li>
 <?php }

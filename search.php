@@ -26,11 +26,12 @@ require_once('database.php');
 require_once('templating.php');
 require_once('data/Items.php');
 
-if (isset($_REQUEST['search'])) 
+if ($_REQUEST['search'] !="") 
   {
 
     $query = $_REQUEST['search'];
     $type = substr($_REQUEST['type'],0,1);
+    $license = (int) $_REQUEST['license'];
     
     $smarty->assign('query', $query);
 
@@ -44,11 +45,13 @@ if (isset($_REQUEST['search']))
     $smarty->assign('debug', "filename=" . $filename);
     
     if (file_exists($filename)) {
-      $foo = $results->parse_results($filename);
+        $foo = $results->parse_results($filename);
     }
     else {
-      $foo = $results->get_results($query,$type);
+        $foo = $results->get_results($query,$type, $license);
     }
+
+    $smarty->assign('results', $foo);
    
   } 
  else {
@@ -56,8 +59,6 @@ if (isset($_REQUEST['search']))
    $smarty->assign('results',"");
 
  }
-
-$smarty->assign('results', $foo);
 
 $smarty->assign('headerfile', 'welcome-header.tpl');
 $smarty->display('search.tpl');

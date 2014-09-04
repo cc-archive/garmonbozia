@@ -5,7 +5,7 @@
 {{$results}}
 
 {foreach $results as $r}
-  <li><img src="{$r.image}" width="100" title="{$r.title}" /></li>
+  <li><img src="{$r.thumb}" width="100" title="{$r.title}" /></li>
 {foreachelse}
    No results 
 {/foreach}
