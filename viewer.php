@@ -32,33 +32,26 @@ if ($query !="")
   {
     $type = substr($_REQUEST['type'],0,1);
     $license = (int) $_REQUEST['license'];
+    $u = $_REQUEST['u'];
+    $site = $_REQUEST['s'];
+    $id = $_REQUEST['id'];
+    
+    switch ($site) {
+
+    case "flickr":
+        $site = "Flickr";
+        
+        
+
+    }
+
     
     $smarty->assign('query', $query);
     $smarty->assign('license', $license);
     $smarty->assign('type', $type);
+    $smarty->assign('uri', $u);
+    $smarty->assign('site', $site);
 
-    $results = new Item;
-
-    $filename = urldecode($query);
-    $filename = strtolower($filename);
-    $filename = str_replace(" ", "+", $filename);
-    //$filename = preg_replace("/[^a-zA-Z]+/", "", $query);
-
-    $filename = $type . "/" . $license . "--results-" . $filename . ".json";
-    mkdir($type);
-
-    $smarty->assign('from', "Cached results from: " . $filename);
-    
-    if (file_exists($filename)) {
-        $foo = $results->parse_results($filename);
-    }
-    else {
-        $foo = $results->get_results($query,$type, $license);
-        $smarty->assign('from','live');
-    }
-
-    $smarty->assign('results', $foo);
-    $smarty->assign('query', $query);
    
   } 
  else {
@@ -69,5 +62,5 @@ if ($query !="")
  }
 
 $smarty->assign('headerfile', 'welcome-header.tpl');
-$smarty->display('search.tpl');
+$smarty->display('view.tpl');
 

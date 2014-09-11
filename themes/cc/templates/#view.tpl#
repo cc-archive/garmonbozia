@@ -1,0 +1,13 @@
+{include file='header.tpl'}
+
+<p id="preview"><img src="{$uri}" /></p>
+
+<h1>
+
+</div>
+
+<div class="container">
+
+<hr class="clearfix" />
+<p class="text-muted"><small>{$from}</small></p>
+{include file='footer.tpl'}

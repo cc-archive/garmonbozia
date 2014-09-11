@@ -1,0 +1,15 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+#results li {list-style: none; float: left; width: 100px; height: 100px; overflow: hidden; background-size: 100px 100px; background-repeat: no-repeat;}
+
+#results li a {display: block; height: 100px; width: 100px;}
+
+#results li a:hover {background: lime; color: lime;}
+
+#preview img {max-width: 90%;}

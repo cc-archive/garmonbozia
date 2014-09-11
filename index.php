@@ -34,6 +34,8 @@ if (isset($_REQUEST['output'])) {
     require_once('templating.php');
     require_once('data/Items.php');
 
+    $smarty->assign('license',4);
+
     $smarty->assign('headerfile', 'welcome-header.tpl');
     $smarty->assign('welcome', true);
     $smarty->display('welcome.tpl');
