@@ -1,8 +1,11 @@
 # README
 
 >Through the darkness of futures past
+
 >The magician longs to see
+
 >One chants out between two worlds
+
 >Fire walk with me
 
 ## How this works
