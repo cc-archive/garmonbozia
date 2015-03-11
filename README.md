@@ -1,4 +1,21 @@
-# README
+
+
+## Who's working on it at Creative Commons?
+
+| Role  | Person |
+| ------------- | ------------- |
+| Driver  | [Matt Lee](https://github.com/mattl)  |
+| Accountable  |  |
+| Consulted | Add yourselves here |
+| Informed | Add yourselves here |
+
+---
+
+# CC Search
+
+This is a replacement search for Creative Commons. Rather than just pointing at other engines, we aim to provide a more traditional interface.
+
+* We are not making a search engine, but rather just an interface to existing search engines. 
 
 >Through the darkness of futures past
 
