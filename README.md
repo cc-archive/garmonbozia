@@ -1,4 +1,6 @@
+## Want to see your favorite site on our new search tool?
 
+* Make a GitHub issue: https://github.com/creativecommons/garmonbozia/issues/new
 
 ## Who's working on it at Creative Commons?
 
