@@ -19,7 +19,7 @@
 
 */
 
-define('SMARTY_DIR', '/usr/share/php/smarty3/');
+define('SMARTY_DIR', 'smarty3/');
 require_once('config.php');
 //require_once('auth.php');
 require_once(SMARTY_DIR . 'Smarty.class.php');
