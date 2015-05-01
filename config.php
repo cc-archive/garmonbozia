@@ -5,6 +5,6 @@
  $site_name = 'My Site';
  $base_url = 'http://localhost';
  $submissions_server = '';
- $install_path = '/home/mattl/dev/garmonbozia/';
+ $install_path = '/home/lwinmaungmaung/gitplayground/garmonbozia/';
  $adodb_connect_string = '';
  $gnufm_key = 'default_gnufm_32_char_identifier'; 
