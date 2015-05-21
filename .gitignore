@@ -22,3 +22,10 @@ tramp
 # AUCTeX auto folder
 /auto/
 themes/*/templates_c
+/vendor/
+/i/
+/v/
+/a/
+/b/
+config.php
+composer.lock

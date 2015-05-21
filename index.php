@@ -1,10 +1,10 @@
 <?php
 
-/* Database abstraction from garmonbozia project. 
+/* Garmonbozia - Creative Commons search.
 
    Based on GNU FM.
 
-   Copyright (C) 2014 Creative Commons
+   Copyright (C) 2014, 2015 Creative Commons
    Copyright (C) 2009 Free Software Foundation, Inc
 
    This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 */
 
-require_once('database.php');
+//require_once('database.php');
 
 if (isset($_REQUEST['output'])) {
 
@@ -34,9 +34,12 @@ if (isset($_REQUEST['output'])) {
     require_once('templating.php');
     require_once('data/Items.php');
 
-    $smarty->assign('license',4);
+    $smarty->assign('query', '');
+    $smarty->assign('license', 4);
+    $smarty->assign('type', 'i');
 
     $smarty->assign('headerfile', 'welcome-header.tpl');
     $smarty->assign('welcome', true);
+
     $smarty->display('welcome.tpl');
   }

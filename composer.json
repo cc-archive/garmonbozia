@@ -1,0 +1,18 @@
+{
+    "name": "creativecommons/garmonbozia",
+    "description": "Creative Commons search.",
+    "require": {
+        "smarty/smarty": "^3.1"
+    },
+    "license": "GNU AGPL v3+",
+    "authors": [
+        {
+            "name": "Matt Lee",
+            "email": "mattl@creativecommons.org"
+        },
+        {
+            "name": "Rob Myers",
+            "email": "rob@creativecommons.org"
+        }
+    ]
+}

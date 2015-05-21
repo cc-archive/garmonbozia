@@ -1,7 +1,9 @@
 <?php
 
-/* GNU FM -- a free network service for sharing your music listening habits
+/* Garmonbozia - Creative Commons search.
+   Based on GNU FM
 
+   Copyright (C) 2015 Creative Commons
    Copyright (C) 2009 Free Software Foundation, Inc
 
    This program is free software: you can redistribute it and/or modify
@@ -17,19 +19,18 @@
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
-require_once('adodb/adodb-exceptions.inc.php');
-require_once('adodb/adodb.inc.php');
+require('vendor/autoload.php');
 require_once('version.php');
 require_once('utils/get_absolute_url.php');
 
 if (file_exists('config.php')) {
-	die('A configuration file already exists. Please delete <i>config.php</i> if you wish to reinstall.');
+	die('A configuration file already exists.'
+        . ' Please delete <i>config.php</i> if you wish to reinstall.');
 }
 
 if (isset($_POST['install'])) {
-
 	$install_path = dirname(__FILE__) . '/';
 
 	$default_theme = $_POST['default_theme'];
@@ -40,10 +41,23 @@ if (isset($_POST['install'])) {
 		$base_url = substr($base_url, 0, -1);
 	}
 
-	$submissions_server = $_POST['submissions_server'];
-
-	//Write out the configuration
-	$config = "<?php\n \$config_version = " . $version .";\n \$connect_string = '" . $connect_string . "';\n \$default_theme = '" . $default_theme . "';\n \$site_name = '" . $site_name . "';\n \$base_url = '" . $base_url . "';\n \$submissions_server = '" . $submissions_server . "';\n \$install_path = '" . $install_path . "';\n \$adodb_connect_string = '" . $adodb_connect_string . "';\n \$gnufm_key = 'default_gnufm_32_char_identifier'; ";
+	// Write out the configuration
+	$config = "<?php\n require('vendor/autoload.php');\n"
+            . "\$config_version = " . $version
+            . ";\n\$connect_string = '" . $connect_string
+            . "';\n\$default_theme = '" . $default_theme
+            . "';\n\$site_name = '" . $site_name
+            . "';\n\$base_url = '" . $base_url
+            . "';\n\$install_path = '" . $install_path
+    //TODO: expose these from installer
+            . "';\n\$filesystem_cache_path = \$install_path . 'cache"
+            . "';\n\$redis_host = '127.0.0.1"
+            . "';\n\$redis_port = '6379"
+            . "';\n\$redis_password = '"
+            . "';\n\$cache_engine = 'redis"
+    //TODO: we need a better way of handling these, there will be many
+            . "';\n\$flickr_api_key = '"
+            . "';\n";
 
 	$conf_file = fopen('config.php', 'w');
 	$result = fwrite($conf_file, $config);
@@ -51,7 +65,9 @@ if (isset($_POST['install'])) {
 
 	if (!$result) {
 		$print_config = str_replace('<', '&lt;', $config);
-		die('Unable to write to file \'<i>config.php</i>\'. Please create this file and copy the following in to it: <br /><pre>' . $print_config . '</pre>');
+		die('Unable to write to file \'<i>config.php</i>\'.'
+          . ' Please create this file and copy the following in to it:'
+          . '<br /><pre>' . $print_config . '</pre>');
 	}
 
 	die('Configuration completed successfully!');
@@ -63,13 +79,14 @@ if (isset($_POST['install'])) {
 		<title>Installer</title>
 	</head>
 
-	<body onload="showSqlite()">
+	<body>
 		<h1>Installer</h1>
 
 
 		<form method="post">
 			<h2>General</h2>
-			Site Name: <input type="text" name="site_name" value="My Site" /><br />
+            Site Name: <input type="text" name="site_name" value="My Site"
+                         /><br />
 			Default Theme: <select name="default_theme">
 			<?php
 				$dir = opendir('themes');
@@ -80,8 +97,8 @@ if (isset($_POST['install'])) {
 				}
 			?>
 			</select><br />
-			Base URL: <input type="text" name="base_url" value="<?php echo getAbsoluteURL(); ?>" /><br />
-			Submissions Server: <input type="text" name="submissions_server" /> (URL to your gnukebox install)<br />
+            Base URL: <input type="text" name="base_url"
+            value="<?php echo getAbsoluteURL(); ?>" /><br />
 			<br /><br />
 			<input type="submit" value="Install" name="install" />
 		</form>
