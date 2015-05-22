@@ -21,5 +21,6 @@
 <div class="container">
 
 <hr class="clearfix" />
-<p class="text-muted"><small>{$from}</small></p>
+<p class="text-muted"><small>{$from}</small><br />
+  <small>approx. {$search_time}</small></p>
 {include file='footer.tpl'}
