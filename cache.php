@@ -40,6 +40,6 @@ function identifier_for_query ($query, $type, $license) {
     $identifier = strtolower($identifier);
     $identifier = str_replace(" ", "+", $identifier);
     //$identifier = preg_replace("/[^a-zA-Z]+/", "", $query);
-    $identifier = $type . "-" . $license . "--results-" . $identifier . ".json";
+    $identifier = $type . "-" . $license . "--results-" . $identifier;
     return $identifier;
 }

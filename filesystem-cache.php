@@ -50,7 +50,7 @@ function search_results_from_cache ($filename) {
 
 function fetch_results_maybe_cached ($query, $type, $license, $count) {
     $identifier = identifier_for_query($query, $type, $license);
-    $filename = $type . '/' . $identifier;
+    $filename = $type . '/' . $identifier . ".json";
 
     if (! file_exists($filename)) {
         $foo = cache_search_results ($filename, $query, $type, $license,
