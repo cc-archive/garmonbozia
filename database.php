@@ -1,10 +1,10 @@
 <?php
 
-/* Database abstraction from garmonbozia project. 
+/* Garmonbozia - Creative Commons search.
 
    Based on GNU FM.
 
-   Copyright (C) 2014 Creative Commons
+   Copyright (C) 2014, 2015 Creative Commons
    Copyright (C) 2009 Free Software Foundation, Inc
 
    This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,9 @@ if (!file_exists(dirname(__FILE__) . '/config.php')) {
 }
 
 require_once('config.php');
-require_once('adodb/adodb-exceptions.inc.php');
-require_once('adodb/adodb.inc.php');
 
 try {
-	$adodb =& NewADOConnection($connect_string);
+	$db = new PDO($connect_string);
 } catch (Exception $e) {
 	// die("Unable to connect to database.");
 }
@@ -44,11 +42,12 @@ try {
  * @param string data Data
  * @return null
  */
-function reportError($msg, $data) {
-	global $adodb;
+/*function reportError($msg, $data) {
+	global $db;
 
 	$adodb->Execute('INSERT INTO Error(msg, data, time) VALUES('
 		. $adodb->qstr($msg) . ', '
 		. $adodb->qstr($data) . ', '
 		. time() . ')');
 }
+*/

@@ -22,52 +22,46 @@
 
   */
 
-require_once('database.php');
+//require_once('database.php');
 require_once('templating.php');
 require_once('data/Items.php');
+if($cache_engine == 'redis') {
+    require_once('redis-cache.php');
+} else {
+    require_once('filesystem-cache.php');
+}
 
-    $query = $_REQUEST['search'];
+$query = $_REQUEST['search'];
 
-if ($query !="") 
-  {
+if ($query !="")
+{
     $type = substr($_REQUEST['type'],0,1);
     $license = (int) $_REQUEST['license'];
-    
+    $count = 20;
+
     $smarty->assign('query', $query);
     $smarty->assign('license', $license);
     $smarty->assign('type', $type);
 
-    $results = new Item;
-
-    $filename = urldecode($query);
-    $filename = strtolower($filename);
-    $filename = str_replace(" ", "+", $filename);
-    //$filename = preg_replace("/[^a-zA-Z]+/", "", $query);
-
-    $filename = $type . "/" . $license . "--results-" . $filename . ".json";
-    mkdir($type);
-
-    $smarty->assign('from', "Cached results from: " . $filename);
-    
-    if (file_exists($filename)) {
-        $foo = $results->parse_results($filename);
-    }
-    else {
-        $foo = $results->get_results($query,$type, $license);
+    $was_cached;
+    $results = fetch_results_maybe_cached($query, $type, $license, $count);
+    if ($results->cached) {
+        $smarty->assign('from', "Cached (" . $results->cache ."): "
+                              . $results->identifier);
+    } else {
         $smarty->assign('from','live');
     }
 
-    $smarty->assign('results', $foo);
+    //$foo_of_at_most_requested_length = array_slice($results->results,
+    //                                               0, $count);
+    $smarty->assign('results', $results->results);
     $smarty->assign('query', $query);
-   
-  } 
- else {
 
-   $smarty->assign('results',"");
-   
+} else {
 
- }
+   $smarty->assign('results', false);
+
+}
 
 $smarty->assign('headerfile', 'welcome-header.tpl');
 $smarty->display('search.tpl');
-

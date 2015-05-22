@@ -1,7 +1,9 @@
 <?php
 
-/* GNU FM -- a free network service for sharing your music listening habits
+/* Garmonbozia - Creative Commons search.
+   Based on GNU FM
 
+   Copyright (C) 2015 Creative Commons
    Copyright (C) 2009 Free Software Foundation, Inc
 
    This program is free software: you can redistribute it and/or modify
@@ -17,17 +19,13 @@
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
-define('SMARTY_DIR', '/usr/share/php/smarty3/');
 require_once('config.php');
-//require_once('auth.php');
-require_once(SMARTY_DIR . 'Smarty.class.php');
 
 function displayError($error_title, $error_message) {
 	global $smarty;
 	$smarty->assign('pagetitle', $error_title);
-	$smarty->assign('pageheading', $error_title); #librefm theme compat, may be removed after switch to BS3 theme
 	$smarty->assign('error_message', $error_message);
 	$smarty->display('error.tpl');
 	die();
@@ -39,7 +37,8 @@ if (isset($_GET['lang'])) {
 } else if (isset($_COOKIE['lang'])) {
  	$languages = array($_COOKIE['lang']);
 } else {
-	// Attempt to mangle browser language strings in to valid gettext locales (needs a big lookup table to be 100% accurate)
+	// Attempt to mangle browser language strings in to valid gettext locales
+    // (needs a big lookup table to be 100% accurate)
 	$languages = preg_split('/,/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 	for ($i = 0; $i < count($languages); $i++) {
 		$languages[$i] = preg_replace('/;q=\d\.\d/', '', $languages[$i]);
@@ -73,16 +72,16 @@ $smarty->setTemplateDir(array(
 $smarty->setPluginsDir(array(
 	SMARTY_DIR . '/plugins/',
 	$install_path. '/themes/' . $theme . '/plugins/',
-	$install_path . '/themes/gnufm/plugins/'
+	$install_path . '/themes/garmonbozia/plugins/'
 ));
 $smarty->setCompileDir($install_path . '/themes/' . $theme . '/templates_c/');
 $smarty->setCacheDir($install_path . '/cache/');
-$smarty->setConfigDir(array($install_path . '/themes/' . $theme . '/config/', $install_path . '/themes/gnufm/config/'));
+$smarty->setConfigDir(array($install_path . '/themes/' . $theme . '/config/',
+                            $install_path . '/themes/garmonbozia/config/'));
 
 $current_lang = preg_replace('/.UTF-8/', '', $current_lang);
 $smarty->assign('lang_selector_array', array(($current_lang) => 1));
 $smarty->assign('base_url', $base_url);
-$smarty->assign('gnufm_key', $gnufm_key);
 $smarty->assign('default_theme', $default_theme);
 $smarty->assign('site_name', $site_name);
 $smarty->assign('img_url', $base_url . '/themes/' . $theme . '/img/');
@@ -101,4 +100,3 @@ if (isset($logged_in) && $logged_in) {
 }
 
 header('Content-Type: text/html; charset=utf-8');
-
