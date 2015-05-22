@@ -22,6 +22,8 @@
 
   */
 
+$search_start_time = microtime(true);
+
 //require_once('database.php');
 require_once('templating.php');
 require_once('data/Items.php');
@@ -46,10 +48,10 @@ if ($query !="")
     $was_cached;
     $results = fetch_results_maybe_cached($query, $type, $license, $count);
     if ($results->cached) {
-        $smarty->assign('from', "Cached (" . $results->cache ."): "
+        $smarty->assign('from', "cached (" . $results->cache ."): "
                               . $results->identifier);
     } else {
-        $smarty->assign('from','live');
+        $smarty->assign('from', 'live');
     }
 
     //$foo_of_at_most_requested_length = array_slice($results->results,
@@ -63,5 +65,14 @@ if ($query !="")
 
 }
 
+// Not the most accurate calculation, as it excludes smarty rendering
+// Move final calculation into the template or even postprocess somehow?
+$search_time = (microtime(true) - $search_start_time);
+if($search_time < 1.0) {
+    $search_time = round($search_time * 1000000) . ' &mu;s';
+} else {
+    $search_time = $search_time . " seconds";
+}
+$smarty->assign('search_time', $search_time);
 $smarty->assign('headerfile', 'welcome-header.tpl');
 $smarty->display('search.tpl');
