@@ -11,7 +11,7 @@
       <option{if $license == 1} selected{/if}  value="1">Creative Commons Attribution-NonCommercial-ShareAlike</option>
       <option{if $license == 6} selected{/if}  value="6">Creative Commons Attribution-NoDerivs</option>
       <option{if $license == 3} selected{/if}  value="3">Creative Commons Attribution-NonCommercial-NoDerivs</option>
-      <option{if $license == 0} selected{/if}  value="0">Creative Commons Zero/Pubic Domain</option>
+      <option{if $license == 0} selected{/if}  value="0">Creative Commons Zero/Public Domain</option>
     </select>
     <select name="type">
       <option{if $type == "i"} selected{/if} value="i">Images</option>
