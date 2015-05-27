@@ -21,6 +21,6 @@
 <div class="container">
 <p>Things not working as you expect? Or do you have any suggestions? <a href="https://github.com/creativecommons/garmonbozia/issues/new?body=Search:%20{$query|escape:'url'}%0A%0A">Click here</a>!</p>
 <hr class="clearfix" />
-<p class="text-muted"><small>{$from}</small><br />
-  <small>approx. {$search_time}</small></p>
+<p class="text-muted"><small>approx. {$search_time}</small><br/>
+   <small>{$from}</small></p>
 {include file='footer.tpl'}

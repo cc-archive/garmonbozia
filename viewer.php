@@ -24,11 +24,10 @@
 
 require_once('database.php');
 require_once('templating.php');
-require_once('data/Items.php');
 
     $query = $_REQUEST['search'];
 
-if ($query !="") 
+if ($query !="")
   {
     $type = substr($_REQUEST['type'],0,1);
     $license = (int) $_REQUEST['license'];

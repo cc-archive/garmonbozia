@@ -19,27 +19,30 @@
  */
 
 class SearchResults {
+    public $source;
     public $results;
     public $cached;
     public $identifier;
     public $cache;
 
-    function __construct($results, $identifier, $cached, $cache) {
+    function __construct($results, $source, $identifier, $cached, $cache) {
         $this->results = $results;
+        $this->source = $source;
         $this->identifier = $identifier;
         $this->cached = $cached;
         $this->cache = $cache;
     }
 }
 
-function identifier_for_query ($query, $type, $license) {
+function identifier_for_query ($query, $source, $type, $license) {
     // This has to be filename and url safe, so it includes the type.
     // This is redundant when used as a filename within a type directory.
-    // Don't be tempted to remove it, we need it for e.g. nosql ids.
+    // Don't be tempted to remove it, we need it for e.g. nosql ids!
     $identifier = urldecode($query);
     $identifier = strtolower($identifier);
     $identifier = str_replace(" ", "+", $identifier);
     //$identifier = preg_replace("/[^a-zA-Z]+/", "", $query);
-    $identifier = $type . "-" . $license . "--results-" . $identifier;
+    $identifier = $type . "-" . $license . "-" . $source . "--results-"
+                . $identifier;
     return $identifier;
 }

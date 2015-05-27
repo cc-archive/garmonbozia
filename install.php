@@ -57,7 +57,13 @@ if (isset($_POST['install'])) {
             . "';\n\$cache_engine = 'redis"
     //TODO: we need a better way of handling these, there will be many
             . "';\n\$flickr_api_key = '"
-            . "';\n";
+            . "';\n\$media_searches = ["
+            . "\n    'i' => ["
+            . "\n        \$base_url . 'data/flickr.com.php',"
+            . "\n        \$base_url . 'data/archive.org.php'"
+            . "\n        ]"
+            . "\n];"
+            . "\n";
 
 	$conf_file = fopen('config.php', 'w');
 	$result = fwrite($conf_file, $config);
