@@ -20,19 +20,28 @@
   */
 
 require_once('config.php');
-require_once('data/Items.php');
 require_once('cache.php');
 
-function cache_search_results ($filename, $query, $type, $license, $count) {
-    if (! file_exists($type)) {
-        mkdir($filesystem_cache_path . '/' . $type);
+define('CACHE_IMPLEMENTATION', 'filesystem');
+
+function filepath ($query, $source, $type, $license) {
+    global $filesystem_cache_path;
+    $identifier = identifier_for_query($query, $source, $type, $license);
+    return $filesystem_cache_path . $type . '/' . $identifier . ".json";
+}
+
+function cache_search_results ($results, $query, $source, $type, $license,
+                               $count) {
+    global $filesystem_cache_path;
+    $type_cache_path = $filesystem_cache_path . $type;
+    if (! file_exists($type_cache_path)) {
+        mkdir($type_cache_path);
     }
 
-    $item = new Item;
-    $results = $item->get_results($query, $type, $license, $count);
     $data = json_encode(array_values($results));
 
     try {
+        $filename = filepath($query, $source, $type, $license);
         file_put_contents($filename, $data);
     }
     finally {
@@ -41,25 +50,12 @@ function cache_search_results ($filename, $query, $type, $license, $count) {
     return $results;
 }
 
-function search_results_from_cache ($filename) {
-    $text = file_get_contents($filename, FILE_USE_INCLUDE_PATH);
-
-    $item = new Item;
-    return $item->parse_results($text);
-}
-
-function fetch_results_maybe_cached ($query, $type, $license, $count) {
-    $identifier = identifier_for_query($query, $type, $license);
-    $filename = $type . '/' . $identifier . ".json";
-
-    if (! file_exists($filename)) {
-        $foo = cache_search_results ($filename, $query, $type, $license,
-                                     $count);
-        $was_cached = false;
-    } else {
-        $foo = search_results_from_cache ($filename);
-        $was_cached = true;
+function search_results_from_cache ($query, $source, $type, $license, $count) {
+    $filename = filepath($query, $source, $type, $license);
+    $result = null;
+    if (file_exists($filename)) {
+        $text = file_get_contents($filename, FILE_USE_INCLUDE_PATH);
+        $result = json_decode($text, true);
     }
-
-    return new SearchResults($foo, $identifier, $was_cached, 'filesystem');
+    return $result;
 }

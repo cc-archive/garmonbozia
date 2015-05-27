@@ -32,7 +32,6 @@ if (isset($_REQUEST['output'])) {
     //If we're not handshaking we display the nixtape start page
 
     require_once('templating.php');
-    require_once('data/Items.php');
 
     $smarty->assign('query', '');
     $smarty->assign('license', 4);
