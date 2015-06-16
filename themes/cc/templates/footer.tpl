@@ -1,5 +1,12 @@
         </div>
 
+        <div style="text-align:center;">
+             <p>This is pre-release software in early and rapid development.<br />Please submit feature requests or errors (rather than ommissions <br />
+             <a href="https://github.com/creativecommons/garmonbozia/issues">
+             on our GitHub project issues page</a>.</p>
+             <img style="margin-top:10px; margin-bottom:20px;" src="{$img_url}/work-in-progress.gif" />
+        </div>
+             
     </div><!-- /.container -->
 
 
