@@ -54,12 +54,12 @@ function get_search_results ($type, $count) {
             //FIXME: handle individual cache results
             $results = array_merge($results, $foo['results']);
             $caching .= $foo['source'];
+            $caching .= ' | ';
             if ($foo['cached']) {
                 $caching .= ' (' . $foo['cache'] . '): ' . $foo['identifier'];
             } else {
                 $caching .= ': live';
             }
-            $caching .= '<br/>';
         } else {
             //FIXME: handle err
             error_log($err);
