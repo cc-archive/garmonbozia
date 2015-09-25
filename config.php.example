@@ -1,0 +1,29 @@
+<?php
+namespace Garmonbozia;
+require('vendor/autoload.php');
+class Config {
+  static $config_version = 0.1;
+  static $connect_string = '';
+  static $default_theme = 'cc';
+  static $site_name = 'My Site';
+  static $base_url = 'http://search.local/';
+  static $search_base_url = 'http://search.local/';
+  static $install_path = '/var/www/garmonbozia/';
+  static $filesystem_cache_path = '/var/www/garmonbozia/';
+  static $redis_host = '127.0.0.1';
+  static $redis_port = '6379';
+  static $redis_password = '';
+  static $redis_database = 0;
+  static $cache_engine = 'redis';
+  static $view_hash_salt = '';
+
+  static $flickr_api_key = '';
+
+  static $media_searches =
+    [
+     'i' => [
+             'http://search.local/data/flickr.com.php',
+             'http://search.local/data/archive.org.php'
+             ]
+     ];
+}

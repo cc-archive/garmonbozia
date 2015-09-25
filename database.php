@@ -22,6 +22,7 @@
 
 */
 
+namespace Garmonbozia;
 
 if (!file_exists(dirname(__FILE__) . '/config.php')) {
 	die('Please run the <a href="install.php">Install</a> script to configure your installation');
@@ -29,9 +30,11 @@ if (!file_exists(dirname(__FILE__) . '/config.php')) {
 
 require_once('config.php');
 
+global $db;
+
 try {
-	$db = new PDO($connect_string);
-} catch (Exception $e) {
+	$db = new \PDO(Config::$connect_string);
+} catch (\PDOException $e) {
 	// die("Unable to connect to database.");
 }
 

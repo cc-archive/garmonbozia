@@ -19,14 +19,18 @@
 
   */
 
+namespace Garmonbozia;
+
 require_once('config.php');
-require_once('cache.php');
+require_once('utils/caching.php');
 
 define('CACHE_IMPLEMENTATION', 'filesystem');
 
+//FIXME: hygeine for passed values - no .., /, etc in any way
+
 function filepath ($query, $source, $type, $license) {
     global $filesystem_cache_path;
-    $identifier = identifier_for_query($query, $source, $type, $license);
+    $identifier = Utils\identifier_for_query($query, $source, $type, $license);
     return $filesystem_cache_path . $type . '/' . $identifier . ".json";
 }
 

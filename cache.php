@@ -18,31 +18,12 @@
 
  */
 
-class SearchResults {
-    public $source;
-    public $results;
-    public $cached;
-    public $identifier;
-    public $cache;
+namespace Garmonbozia;
 
-    function __construct($results, $source, $identifier, $cached, $cache) {
-        $this->results = $results;
-        $this->source = $source;
-        $this->identifier = $identifier;
-        $this->cached = $cached;
-        $this->cache = $cache;
-    }
-}
+require_once('utils/caching.php');
 
-function identifier_for_query ($query, $source, $type, $license) {
-    // This has to be filename and url safe, so it includes the type.
-    // This is redundant when used as a filename within a type directory.
-    // Don't be tempted to remove it, we need it for e.g. nosql ids!
-    $identifier = urldecode($query);
-    $identifier = strtolower($identifier);
-    $identifier = str_replace(" ", "+", $identifier);
-    //$identifier = preg_replace("/[^a-zA-Z]+/", "", $query);
-    $identifier = $type . "-" . $license . "-" . $source . "--results-"
-                . $identifier;
-    return $identifier;
+if(Config::$cache_engine == 'redis') {
+    require_once('redis-cache.php');
+} else {
+    require_once('filesystem-cache.php');
 }

@@ -22,22 +22,24 @@
 
  */
 
+namespace Garmonbozia;
+
 $search_start_time = microtime(true);
 
 //require_once('database.php');
-require_once('utils/multicurl.php');
 require_once('templating.php');
+require_once('cache.php');
+require_once('utils/multicurl.php');
 
 $query = $_REQUEST['search'];
 
 // Runs in parallel but waits for all to finish
 //TODO: stream responses via http response chunking
 
-function get_search_results ($type, $count) {
+function get_search_results ($type, $license, $count) {
     global $media_searches;
-    global $base_url;
-    $sources = $media_searches[$type];
-    $multicurl = new MultiCurl();
+    $sources = Config::$media_searches[$type];
+    $multicurl = new Utils\MultiCurl();
     $query_string = '?' . $_SERVER['QUERY_STRING'] . '&count=' . $count;
     foreach ($sources as $source) {
         $url = $source . $query_string;
@@ -52,13 +54,16 @@ function get_search_results ($type, $count) {
         if ($err == 0) {
             $foo = json_decode($fetched_contents, true);
             //FIXME: handle individual cache results
-            $results = array_merge($results, $foo['results']);
+            $results =
+              array_merge($results,
+                          Utils\attach_info_to_results($foo['results'],
+                                                       $type, $license));
             $caching .= $foo['source'];
             $caching .= ' | ';
             if ($foo['cached']) {
                 $caching .= ' (' . $foo['cache'] . '): ' . $foo['identifier'];
             } else {
-                $caching .= ': live';
+                $caching .= ': live    ';
             }
         } else {
             //FIXME: handle err
@@ -74,11 +79,13 @@ if ($query !="")
     $license = (int) $_REQUEST['license'];
     $count = 20;
 
+    // TODO: sanity check that this matches the cache identifier
+
     $smarty->assign('query', $query);
     $smarty->assign('license', $license);
     $smarty->assign('type', $type);
 
-    $results = get_search_results($type, $count);
+    $results = get_search_results($type, $license, $count);
 
     $smarty->assign('from', $results['caching']);
 

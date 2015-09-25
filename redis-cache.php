@@ -19,24 +19,26 @@
 
   */
 
+namespace Garmonbozia;
+
 require_once('config.php');
-require_once('cache.php');
+require_once('utils/caching.php');
 
 define('CACHE_IMPLEMENTATION', 'redis');
 
 // How long to cache results for (time to live)
 define('REDIS_TTL', 60 * 60 * 24);
 
-$redis = new Redis();
-$redis->connect($redis_host, $redis_port);
-if ($redis_password) {
-    $redis->auth($redis_password);
+$redis = new \Redis();
+$redis->connect(Config::$redis_host, Config::$redis_port);
+if (Config::$redis_password) {
+    $redis->auth(Config::$redis_password);
 }
 
 function cache_search_results ($results, $query, $source, $type, $license,
                                $count) {
     global $redis;
-    $identifier = identifier_for_query($query, $source, $type, $license);
+    $identifier = Utils\identifier_for_query($query, $source, $type, $license);
     $data = json_encode(array_values($results));
 
     try {
@@ -48,7 +50,7 @@ function cache_search_results ($results, $query, $source, $type, $license,
 
 function search_results_from_cache ($query, $source, $type, $license, $count) {
     global $redis;
-    $identifier = identifier_for_query($query, $source, $type, $license);
+    $identifier = Utils\identifier_for_query($query, $source, $type, $license);
     $result = false;
     $text = $redis->get($identifier);
     return json_decode($text, true);
