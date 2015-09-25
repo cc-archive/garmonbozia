@@ -47,3 +47,27 @@ This is a replacement search for Creative Commons. Rather than just pointing at 
    nice looking way and you can click it and see more info.
 
 https://archive.org/advancedsearch.php?q=cat+mediatype%3A%28Image%29&fl%5B%5D=identifier&fl%5B%5D=licenseurl&fl%5B%5D=source&fl%5B%5D=title&sort%5B%5D=downloads+desc&sort%5B%5D=&sort%5B%5D=&rows=50&page=1&output=json&callback=callback&save=yes
+
+## Installation
+
+Check out this project:
+
+    git clone https://github.com/creativecommons/garmonbozia.git
+
+Install php dependencies: php5-curl , php5-redis
+
+Restart apache afterwards.
+
+Run composer:
+
+    composer update
+
+Copy and configure config.php:
+
+    cp config.php.example config.php
+    emacs config.php
+
+Create the template cache directory and make it writable by the web server:
+
+    mkdir themes/cc/templates_c
+    chown www-data:www-data themes/cc/templates_c

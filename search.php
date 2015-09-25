@@ -37,7 +37,6 @@ $query = $_REQUEST['search'];
 //TODO: stream responses via http response chunking
 
 function get_search_results ($type, $license, $count) {
-    global $media_searches;
     $sources = Config::$media_searches[$type];
     $multicurl = new Utils\MultiCurl();
     $query_string = '?' . $_SERVER['QUERY_STRING'] . '&count=' . $count;
@@ -79,8 +78,6 @@ if ($query !="")
     $license = (int) $_REQUEST['license'];
     $count = 20;
 
-    // TODO: sanity check that this matches the cache identifier
-
     $smarty->assign('query', $query);
     $smarty->assign('license', $license);
     $smarty->assign('type', $type);
@@ -93,7 +90,7 @@ if ($query !="")
     //                                               0, $count);
     $smarty->assign('results', $results['results']);
     $smarty->assign('query', $query);
-
+    $smarty->assign('baseurl', Config::$base_url);
 } else {
 
    $smarty->assign('results', false);
