@@ -19,12 +19,13 @@
 
 */
 
+namespace Garmonbozia\Data;
+
 require_once('search-base.php');
 require_once('utils/multicurl.php');
 
 function fetch_results ($query, $source, $type, $license, $count)
 {
-    global $flickr_api_key;
     $search =
         'https://archive.org/advancedsearch.php?q=(mediatype:(Image) "'
         . $query
@@ -37,7 +38,7 @@ function fetch_results ($query, $source, $type, $license, $count)
 function regularize_results ($json) {
     $results = $json['response']['docs'];
     $regularized = array();
-    $multicurl = new MultiCurl();
+    $multicurl = new \Garmonbozia\Utils\MultiCurl();
     foreach($results as $result) {
         $identifier = $result['identifier'];
         $url = "https://archive.org/details/" . $identifier
@@ -54,44 +55,58 @@ function regularize_results ($json) {
             continue;
         }
         $foo = json_decode($fetched_contents, true);
-        $title = $result['title'];
-        $server = $foo['server'];
-        $dir = $foo['dir'];
+        $metadata = $foo['metadata'];
+        //FIXME: Not every upload has a "creator". Skip these for now,
+        //       we should degrade more gracefully somehow.
+        if (array_key_exists('creator', $metadata)) {
+            $title = $result['title'];
+            $server = $foo['server'];
+            $dir = $foo['dir'];
 
-        $rage = $foo['files'];
+            $rage = $foo['files'];
 
-        // Yes, we have to loop through the resulting collection
-        // to find an image! The choice of variable names here is
-        // purely coincidental ;)
+            // Yes, we have to loop through the resulting collection
+            // to find an image! The choice of variable names here is
+            // purely coincidental ;)
 
-        //print_r(array_keys($rage));
+            //print_r(array_keys($rage));
 
-        $keys = array_keys($rage);
+            $keys = array_keys($rage);
 
-        //var_dump($keys);
+            //var_dump($keys);
 
-        $loop = 0;
+            $loop = 0;
 
-        foreach ($rage as $blah) {
+            foreach ($rage as $blah) {
 
-            if ($blah['format'] == "JPEG Thumb") {
-                $image = "https://" . $server . $dir . "/"
-                    . $blah['original'];
-                $thumb = "https://" . $server . $dir . $keys[$loop];
+                if ($blah['format'] == "JPEG Thumb") {
+                    $image = "https://" . $server . $dir . "/"
+                           . $blah['original'];
+                    $thumb = "https://" . $server . $dir . $keys[$loop];
+                }
+
+                $loop++;
+
             }
 
-            $loop++;
+            $work_url = "https://archive.org/details/" . $identifier;
 
+            $creator = $metadata['creator'][0];
+
+            $creator_url = 'https://archive.org/search.php?query=creator"'
+              . $creator .'"';
+
+            array_push($regularized, array(
+                "site"=>"archive.org",
+                "identifier"=>$identifier,
+                "title"=>$title,
+                "url"=>$work_url,
+                "author"=>$creator,
+                "author_url"=>$creator_url,
+                "preview_url"=>$thumb,
+                "full_url"=>$image,
+            ));
         }
-
-        //error_log($thumb);
-
-        array_push($regularized, array("title"=>$title,
-                                 "identifier"=>$identifier,
-                                 "thumb"=>$thumb,
-                                 "image"=>$image,
-                                 "site"=>"archive.org"));
-
     }
 
     $multicurl->cleanup();

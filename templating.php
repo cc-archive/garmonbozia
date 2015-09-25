@@ -21,6 +21,8 @@
 
  */
 
+namespace Garmonbozia;
+
 require_once('config.php');
 
 function displayError($error_title, $error_message) {
@@ -57,34 +59,38 @@ $current_lang = setlocale(LC_ALL, $languages);
 if(isset($_GET['mobile']) && $_GET['mobile']) {
 	$theme = 'mobile';
 } else {
-	$theme = $default_theme;
+	$theme = Config::$default_theme;
 }
 
-bindtextdomain('garmonbozia', $install_path . '/themes/' . $theme . '/locale/');
+bindtextdomain('garmonbozia', Config::$install_path . '/themes/' . $theme
+               . '/locale/');
 textdomain('garmonbozia');
 
-$smarty = new Smarty();
+$smarty = new \Smarty();
 
 $smarty->setTemplateDir(array(
-	$install_path . '/themes/'. $theme . '/templates/',
-	$install_path . '/themes/gnufm/templates/'
+	Config::$install_path . '/themes/'. $theme . '/templates/',
+	Config::$install_path . '/themes/gnufm/templates/'
 ));
 $smarty->setPluginsDir(array(
 	SMARTY_DIR . '/plugins/',
-	$install_path. '/themes/' . $theme . '/plugins/',
-	$install_path . '/themes/garmonbozia/plugins/'
+	Config::$install_path. '/themes/' . $theme . '/plugins/',
+	Config::$install_path . '/themes/garmonbozia/plugins/'
 ));
-$smarty->setCompileDir($install_path . '/themes/' . $theme . '/templates_c/');
-$smarty->setCacheDir($install_path . '/cache/');
-$smarty->setConfigDir(array($install_path . '/themes/' . $theme . '/config/',
-                            $install_path . '/themes/garmonbozia/config/'));
+$smarty->setCompileDir(Config::$install_path . '/themes/' . $theme
+                       . '/templates_c/');
+$smarty->setCacheDir(Config::$install_path . '/cache/');
+$smarty->setConfigDir(array(Config::$install_path . '/themes/' . $theme
+                            . '/config/',
+                            Config::$install_path
+                            . '/themes/garmonbozia/config/'));
 
 $current_lang = preg_replace('/.UTF-8/', '', $current_lang);
 $smarty->assign('lang_selector_array', array(($current_lang) => 1));
-$smarty->assign('base_url', $base_url);
-$smarty->assign('default_theme', $default_theme);
-$smarty->assign('site_name', $site_name);
-$smarty->assign('img_url', $base_url . '/themes/' . $theme . '/img/');
+$smarty->assign('base_url', Config::$base_url);
+$smarty->assign('default_theme', Config::$default_theme);
+$smarty->assign('site_name', Config::$site_name);
+$smarty->assign('img_url', Config::$base_url . '/themes/' . $theme . '/img/');
 $smarty->assign('this_page', $_SERVER['REQUEST_URI']);
 $smarty->assign('this_page_absolute',
 	  (empty($_SERVER['HTTPS']) ? 'http://' : 'http://')

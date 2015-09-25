@@ -19,14 +19,15 @@
 
 */
 
+namespace Garmonbozia\Data;
+
 require_once('search-base.php');
 
 function fetch_results ($query, $source, $type, $license, $count)
 {
-    global $flickr_api_key;
     $search = 'https://api.flickr.com/services/rest/'
         . '?method=flickr.photos.search&api_key='
-        . $flickr_api_key
+        . \Garmonbozia\Config::$flickr_api_key
         . '&text='
         . urlencode($query)
         . '&per_page=15&format=json&nojsoncallback=1&license='
@@ -42,23 +43,32 @@ function regularize_results ($json) {
     $responses = $json['photos']['photo'];
     foreach ($responses as $response) {
         $title = $response['title'];
-        $identifier = $response['id'];
         $farmId = $response['farm'];
         $serverId = $response['server'];
         $id = $response['id'];
         $secret = $response['secret'];
-        $owner = $response['ownername'];
+        $owner = $response['owner'];
+        $ownername = $response['ownername'];
 
         $thumb = 'https://farm' . $farmId . '.static.flickr.com/'
-            . $serverId.'/' . $id . '_' . $secret . '_s.jpg';
+               . $serverId.'/' . $id . '_' . $secret . '_s.jpg';
         $image = 'https://farm' . $farmId . '.static.flickr.com/'
-            . $serverId . '/' . $id . '_' . $secret . '_b.jpg';
+               . $serverId . '/' . $id . '_' . $secret . '_b.jpg';
 
-        array_push($regularized, array("title"=>$title,
-                                       "identifier"=>$identifier,
-                                       "thumb"=>$thumb,
-                                       "image"=>$image,
-                                       "site"=>"flickr.com"));
+        $owner_url = 'https://www.flickr.com/photos/' . $owner;
+
+        $work_url = $owner_url . '/' . $id . '/';
+
+        array_push($regularized, array(
+            "site"=>"flickr.com",
+            "identifier"=>$id,
+            "title"=>$title,
+            "url"=>$work_url,
+            "author"=>$ownername,
+            "author_url"=>$owner_url,
+            "preview_url"=>$thumb,
+            "full_url"=>$image,
+        ));
     }
     return $regularized;
 }

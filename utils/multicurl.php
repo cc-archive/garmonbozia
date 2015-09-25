@@ -19,6 +19,8 @@
 
  */
 
+namespace Garmonbozia\Utils;
+
 // Parralelize network fetches
 
 class Multicurl {

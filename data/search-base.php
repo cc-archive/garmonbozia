@@ -19,14 +19,11 @@
 
 */
 
+namespace Garmonbozia\Data;
+
 set_include_path(get_include_path() . PATH_SEPARATOR . '..');
 require_once('config.php');
-
-if($cache_engine == 'redis') {
-    require_once('redis-cache.php');
-} else {
-    require_once('filesystem-cache.php');
-}
+require_once('cache.php');
 
 function search ($source) {
     $query = $_REQUEST['search'];
@@ -39,17 +36,21 @@ function search ($source) {
 }
 
 function fetch_results_maybe_cached ($query, $source, $type, $license, $count) {
-    $foo = search_results_from_cache($query, $source, $type, $license, $count);
+  $foo = \Garmonbozia\search_results_from_cache($query, $source, $type,
+                                                $license, $count);
     if ($foo) {
         $was_cached = true;
     } else {
         $foo = fetch_results($query, $source, $type, $license, $count);
-        cache_search_results($foo, $query, $source, $type, $license, $count);
+        \Garmonbozia\cache_search_results($foo, $query, $source, $type,
+                                          $license, $count);
         $was_cached = false;
     }
-    $identifier = identifier_for_query($query, $source, $type, $license);
-    return new SearchResults($foo, $source, $identifier, $was_cached,
-                             CACHE_IMPLEMENTATION);
+    $identifier = \Garmonbozia\Utils\identifier_for_query($query, $source, $type,
+                                                          $license);
+    return new \Garmonbozia\Utils\SearchResults($foo, $source, $identifier,
+                                                $was_cached,
+                                                CACHE_IMPLEMENTATION);
 }
 
 function print_results_maybe_cached ($query, $source, $type, $license, $count) {

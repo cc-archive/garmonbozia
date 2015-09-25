@@ -29,3 +29,4 @@ themes/*/templates_c
 /b/
 config.php
 composer.lock
+tests/_output/*

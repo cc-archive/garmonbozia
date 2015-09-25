@@ -19,6 +19,8 @@
 
 */
 
+namespace Garmonbozia\Utils;
+
 function getAbsoluteURL() {
 	$scriptName = $_SERVER['SCRIPT_NAME'];
 	$path = explode('/', $scriptName);

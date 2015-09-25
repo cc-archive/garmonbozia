@@ -2,7 +2,15 @@
     "name": "creativecommons/garmonbozia",
     "description": "Creative Commons search.",
     "require": {
-        "smarty/smarty": "^3.1"
+      "smarty/smarty": "^3.1",
+      "gettext/gettext": "^3.4",
+      "smarty-gettext/smarty-gettext": "~1.1.1"
+    },
+    "require-dev": {
+        "codeception/codeception": "*",
+        "flow/jsonpath": "*",
+        "codeception/specify": "*",
+        "codeception/verify": "*"
     },
     "license": "GNU AGPL v3+",
     "authors": [
