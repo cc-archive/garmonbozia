@@ -9,7 +9,7 @@
 {if $results}
 <ul id="results" class="clearfix">
 {foreach $results as $r}
-  <li style="background-image: url({$r.preview_url});"><a href="/viewer.php?license={$r.license}&amp;type={$type}&amp;site={$r.site}&amp;title={$r.titler|urlencode};&amp;url={$r.urlr|urlencode};author={$r.author|urlencode}&amp;author_url={$r.author_url|urlencode}&amp;preview_url={$r.preview_url|urlencode}&amp;full_url={$r.full_url|urlencode}&amp;check={$r.hash}" title="{$r.title}"></a></li>
+  <li style="background-image: url({$r.preview_url});"><a href="{$baseurl}viewer.php?license={$r.license}&amp;type={$type}&amp;site={$r.site}&amp;title={$r.titler|urlencode};&amp;url={$r.urlr|urlencode};author={$r.author|urlencode}&amp;author_url={$r.author_url|urlencode}&amp;preview_url={$r.preview_url|urlencode}&amp;full_url={$r.full_url|urlencode}&amp;check={$r.hash}" title="{$r.title}"></a></li>
 {foreachelse}
   No results.
 {/foreach}
