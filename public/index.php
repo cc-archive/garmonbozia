@@ -1,7 +1,10 @@
 <?php
 
-/* GNU FM -- a free network service for sharing your music listening habits
+/* Garmonbozia - Creative Commons search.
 
+   Based on GNU FM.
+
+   Copyright (C) 2014, 2015 Creative Commons
    Copyright (C) 2009 Free Software Foundation, Inc
 
    This program is free software: you can redistribute it and/or modify
@@ -19,13 +22,26 @@
 
 */
 
-namespace Garmonbozia\Utils;
+namespace Garmonbozia;
 
-function getAbsoluteURL() {
-	$scriptName = $_SERVER['SCRIPT_NAME'];
-	$path = explode('/', $scriptName);
-	array_pop($path);
-	$server = $_SERVER['HTTP_HOST'];
-	$string = implode('/', $path) . '/';
-	return 'http://' . $server . $string;
-}
+//require_once('database.php');
+
+if (isset($_REQUEST['output'])) {
+
+   // Leaving this here for future API support for the search itself
+
+} else {
+    //If we're not handshaking we display the nixtape start page
+
+    $approot = dirname(__DIR__) . '/application/';
+    require_once($approot . 'src/templating.php');
+
+    $smarty->assign('query', '');
+    $smarty->assign('license', 4);
+    $smarty->assign('type', 'i');
+
+    $smarty->assign('headerfile', 'welcome-header.tpl');
+    $smarty->assign('welcome', true);
+
+    $smarty->display('welcome.tpl');
+  }

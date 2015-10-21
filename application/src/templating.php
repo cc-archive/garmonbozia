@@ -23,7 +23,10 @@
 
 namespace Garmonbozia;
 
-require_once('config.php');
+$root = dirname(dirname(__DIR__));
+$themesroot = $root . '/application/themes/';
+
+require_once($root . '/config.php');
 
 function displayError($error_title, $error_message) {
 	global $smarty;
@@ -62,28 +65,28 @@ if(isset($_GET['mobile']) && $_GET['mobile']) {
 	$theme = Config::$default_theme;
 }
 
-bindtextdomain('garmonbozia', Config::$install_path . '/themes/' . $theme
+bindtextdomain('garmonbozia', $themesroot . $theme
                . '/locale/');
 textdomain('garmonbozia');
 
 $smarty = new \Smarty();
 
 $smarty->setTemplateDir(array(
-	Config::$install_path . '/themes/'. $theme . '/templates/',
-	Config::$install_path . '/themes/gnufm/templates/'
+	$themesroot . $theme . '/templates/',
+	$themesroot . 'garmonbozia/templates/'
 ));
 $smarty->setPluginsDir(array(
 	SMARTY_DIR . '/plugins/',
-	Config::$install_path. '/themes/' . $theme . '/plugins/',
-	Config::$install_path . '/themes/garmonbozia/plugins/'
+	$themesroot . $theme . '/plugins/',
+	$themesroot . 'garmonbozia/plugins/'
 ));
-$smarty->setCompileDir(Config::$install_path . '/themes/' . $theme
+$smarty->setCompileDir($themesroot . $theme
                        . '/templates_c/');
-$smarty->setCacheDir(Config::$install_path . '/cache/');
-$smarty->setConfigDir(array(Config::$install_path . '/themes/' . $theme
+$smarty->setCacheDir($root . '/cache/');
+$smarty->setConfigDir(array($themesroot . $theme
                             . '/config/',
-                            Config::$install_path
-                            . '/themes/garmonbozia/config/'));
+                            $themesroot
+                            . 'garmonbozia/config/'));
 
 $current_lang = preg_replace('/.UTF-8/', '', $current_lang);
 $smarty->assign('lang_selector_array', array(($current_lang) => 1));

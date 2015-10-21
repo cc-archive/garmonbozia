@@ -26,8 +26,10 @@ namespace Garmonbozia;
 
 $search_start_time = microtime(true);
 
-require_once(__DIR__.'/config.php');
-require_once(__DIR__.'/templating.php');
+$root = dirname(__DIR__);
+$srcroot = $root . '/application/src/';
+require_once($root . '/config.php');
+require_once($srcroot . 'templating.php');
 
 $query = $_REQUEST['search'];
 
@@ -43,6 +45,8 @@ if ($query !="")
                      . '&type=' . $type
                      . '&count=' . $count;
     $results = json_decode(file_get_contents($request), true);
+    error_log($request);
+    error_log(json_encode($results));
 
     $smarty->assign('query', $query);
     $smarty->assign('license', $license);

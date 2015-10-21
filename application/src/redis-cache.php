@@ -21,8 +21,8 @@
 
 namespace Garmonbozia;
 
-require_once('config.php');
-require_once('utils/caching.php');
+require_once(dirname(dirname(__DIR__)).'/config.php');
+require_once(__DIR__.'/caching.php');
 
 define('CACHE_IMPLEMENTATION', 'redis');
 
@@ -38,7 +38,7 @@ if (Config::$redis_password) {
 function cache_search_results ($results, $query, $source, $type, $license,
                                $count) {
     global $redis;
-    $identifier = Utils\identifier_for_query($query, $source, $type, $license);
+    $identifier = identifier_for_query($query, $source, $type, $license);
     $data = json_encode(array_values($results));
 
     try {
@@ -50,7 +50,7 @@ function cache_search_results ($results, $query, $source, $type, $license,
 
 function search_results_from_cache ($query, $source, $type, $license, $count) {
     global $redis;
-    $identifier = Utils\identifier_for_query($query, $source, $type, $license);
+    $identifier = identifier_for_query($query, $source, $type, $license);
     $result = false;
     $text = $redis->get($identifier);
     return json_decode($text, true);

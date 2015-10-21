@@ -21,8 +21,8 @@
 
 namespace Garmonbozia;
 
-require_once('config.php');
-require_once('utils/caching.php');
+require_once(dirname(dirname(__DIR__).'/config.php');
+require_once(__DIR__.'/caching.php');
 
 define('CACHE_IMPLEMENTATION', 'filesystem');
 
@@ -30,7 +30,7 @@ define('CACHE_IMPLEMENTATION', 'filesystem');
 
 function filepath ($query, $source, $type, $license) {
     global $filesystem_cache_path;
-    $identifier = Utils\identifier_for_query($query, $source, $type, $license);
+    $identifier = identifier_for_query($query, $source, $type, $license);
     return $filesystem_cache_path . $type . '/' . $identifier . ".json";
 }
 

@@ -29,20 +29,18 @@
 
  */
 
-namespace Garmonbozia\Api\v1;
-
-$root = dirname(__DIR__);
-require_once($root.'/database.php');
-require_once($root.'/version.php');
-require_once($root.'/cache.php');
-require_once($root.'/utils/multicurl.php');
+$root = dirname(dirname(__DIR__));
+$srcroot = $root.'/application/src/';
+require_once($srcroot.'database.php');
+require_once($srcroot.'version.php');
+require_once($srcroot.'cache.php');
+require_once($srcroot.'multicurl.php');
 require_once(__DIR__.'/klein.php');
 
-use Garmonbozia;
-use Garmonbozia\Utils;
+#use Garmonbozia;
 
 header('Content-Type: text/javascript; charset=utf8');
-header('Access-Control-Allow-Origin: '.\Garmonbozia\Config::$base_url.'/');
+//header('Access-Control-Allow-Origin: '.\Garmonbozia\Config::$base_url.'/');
 header('Access-Control-Max-Age: 3628800');
 header('Access-Control-Allow-Methods: GET');
 
@@ -85,7 +83,7 @@ with('/api/v1/search', function () {
             // Runs in parallel but waits for all to finish
             //TODO: stream responses via http response chunking
             $sources = \Garmonbozia\Config::$media_searches[$type];
-            $multicurl = new \Garmonbozia\Utils\MultiCurl();
+            $multicurl = new \Garmonbozia\MultiCurl();
             $query_string = '?search=' . $query
                           . '&count=' . $count
                           . '&license=' . $license
@@ -105,9 +103,10 @@ with('/api/v1/search', function () {
                     //FIXME: handle individual cache results
                     $results =
                     array_merge($results,
-                                Utils\attach_info_to_results($foo['results'],
-                                                             $type,
-                                                             $license));
+                                \Garmonbozia\attach_info_to_results(
+                                    $foo['results'],
+                                    $type,
+                                    $license));
                     $caching .= $foo['source'];
                     $caching .= ' | ';
                     if ($foo['cached']) {

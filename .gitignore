@@ -21,12 +21,12 @@ tramp
 *.rel
 # AUCTeX auto folder
 /auto/
-themes/*/templates_c
+/application/themes/*/templates_c
 /vendor/
-/i/
-/v/
-/a/
-/b/
+/public/i/
+/public/v/
+/public/a/
+/public/b/
 config.php
 composer.lock
 tests/_output/*

@@ -21,10 +21,11 @@
 
 namespace Garmonbozia\Data;
 
-require_once('search-base.php');
-require_once('utils/multicurl.php');
+$srcroot = dirname(__DIR__).'/application/src/';
+require_once($srcroot.'search-base.php');
+require_once($srcroot.'multicurl.php');
 
-function fetch_results ($query, $source, $type, $license, $count)
+$fetch_results = function ($query, $source, $type, $license, $count)
 {
     $search =
         'https://archive.org/advancedsearch.php?q=(mediatype:(Image) "'
@@ -33,12 +34,12 @@ function fetch_results ($query, $source, $type, $license, $count)
     $contents = file_get_contents($search);
     $json = json_decode($contents, true);
     return regularize_results($json);
-}
+};
 
 function regularize_results ($json) {
     $results = $json['response']['docs'];
     $regularized = array();
-    $multicurl = new \Garmonbozia\Utils\MultiCurl();
+    $multicurl = new \Garmonbozia\MultiCurl();
     foreach($results as $result) {
         $identifier = $result['identifier'];
         $url = "https://archive.org/details/" . $identifier
@@ -113,4 +114,4 @@ function regularize_results ($json) {
     return $regularized;
 }
 
-search('archive.org');
+\Garmonbozia\search('archive.org', $fetch_results);
