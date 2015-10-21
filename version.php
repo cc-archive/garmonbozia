@@ -19,4 +19,5 @@
 
 */
 
-$version = 0.1;
+$code_version = 0.1;
+$api_version = 1;

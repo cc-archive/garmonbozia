@@ -46,7 +46,7 @@ if ($check_str != "")
     $author_url = urldecode($_REQUEST['author_url']);
     $preview_url = urldecode($_REQUEST['preview_url']);
     $full_url = urldecode($_REQUEST['full_url']);
-    
+
     $check =
       Utils\Integrity::view_params_hash($license,
                                         $type,
@@ -61,7 +61,7 @@ if ($check_str != "")
     if ($check_str != $check) {
         die("Params invalid.");
     }
-    
+
     $smarty->assign('site', $site);
     $smarty->assign('dcmitype', Utils\media_dcmitype_for_letter($type));
     $smarty->assign('license_string', Utils\license_string($license,
