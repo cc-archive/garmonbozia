@@ -24,10 +24,11 @@
 
 namespace Garmonbozia;
 
-require_once('database.php');
-require_once('templating.php');
-require_once('utils/integrity.php');
-require_once('utils/licenses.php');
+$srcroot = dirname(__DIR__) . '/application/src/';
+require_once($srcroot.'database.php');
+require_once($srcroot.'templating.php');
+require_once($srcroot.'integrity.php');
+require_once($srcroot.'licenses.php');
 
 $check_str = $_REQUEST['check'];
 
@@ -46,31 +47,30 @@ if ($check_str != "")
     $author_url = urldecode($_REQUEST['author_url']);
     $preview_url = urldecode($_REQUEST['preview_url']);
     $full_url = urldecode($_REQUEST['full_url']);
-    
-    $check =
-      Utils\Integrity::view_params_hash($license,
-                                        $type,
-                                        $site,
-                                        $title,
-                                        $url,
-                                        $author,
-                                        $author_url,
-                                        $preview_url,
-                                        $full_url);
+
+    $check = Integrity::view_params_hash($license,
+                                         $type,
+                                         $site,
+                                         $title,
+                                         $url,
+                                         $author,
+                                         $author_url,
+                                         $preview_url,
+                                         $full_url);
 
     if ($check_str != $check) {
         die("Params invalid.");
     }
-    
+
     $smarty->assign('site', $site);
-    $smarty->assign('dcmitype', Utils\media_dcmitype_for_letter($type));
-    $smarty->assign('license_string', Utils\license_string($license,
-                                                           $license_version,
-                                                           $license_locale));
-    $smarty->assign('license_url', Utils\license_url_for_num($license,
-                                                             $license_version));
+    $smarty->assign('dcmitype', media_dcmitype_for_letter($type));
+    $smarty->assign('license_string', license_string($license,
+                                                     $license_version,
+                                                     $license_locale));
+    $smarty->assign('license_url', license_url_for_num($license,
+                                                       $license_version));
     $smarty->assign('license_icon',
-                    Utils\license_icon_for_num($license, $license_version));
+                    license_icon_for_num($license, $license_version));
     $smarty->assign('title', $title);
     $smarty->assign('url', $url);
     $smarty->assign('author', $author);

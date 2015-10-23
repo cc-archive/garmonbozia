@@ -19,42 +19,44 @@
 
 */
 
-namespace Garmonbozia\Data;
+namespace Garmonbozia;
 
-set_include_path(get_include_path() . PATH_SEPARATOR . '..');
-require_once('config.php');
-require_once('cache.php');
+//set_include_path(get_include_path() . PATH_SEPARATOR . '..');
 
-function search ($source) {
+require_once(dirname(dirname(__DIR__)).'/config.php');
+require_once(__DIR__.'/cache.php');
+
+function search ($source, $fetch_results) {
     $query = $_REQUEST['search'];
     $type = substr($_REQUEST['type'],0,1);
     $license = (int) $_REQUEST['license'];
     $count = (int) $_REQUEST['count'];
     $results = print_results_maybe_cached($query, $source, $type, $license,
-                                          $count);
+                                          $count, $fetch_results);
     return $results;
 }
 
-function fetch_results_maybe_cached ($query, $source, $type, $license, $count) {
-  $foo = \Garmonbozia\search_results_from_cache($query, $source, $type,
-                                                $license, $count);
+function fetch_results_maybe_cached ($query, $source, $type, $license, $count,
+                                     $fetch_results) {
+    $foo = search_results_from_cache($query, $source, $type,
+                                     $license, $count);
     if ($foo) {
         $was_cached = true;
     } else {
-        $foo = fetch_results($query, $source, $type, $license, $count);
-        \Garmonbozia\cache_search_results($foo, $query, $source, $type,
-                                          $license, $count);
+        $foo = $fetch_results($query, $source, $type, $license, $count);
+        cache_search_results($foo, $query, $source, $type,
+                             $license, $count);
         $was_cached = false;
     }
-    $identifier = \Garmonbozia\Utils\identifier_for_query($query, $source, $type,
-                                                          $license);
-    return new \Garmonbozia\Utils\SearchResults($foo, $source, $identifier,
-                                                $was_cached,
-                                                CACHE_IMPLEMENTATION);
+    $identifier = identifier_for_query($query, $source, $type, $license);
+    return new SearchResults($foo, $source, $identifier,
+                             $was_cached,
+                             CACHE_IMPLEMENTATION);
 }
 
-function print_results_maybe_cached ($query, $source, $type, $license, $count) {
+function print_results_maybe_cached ($query, $source, $type, $license, $count,
+                                     $fetch_results) {
     $results = fetch_results_maybe_cached ($query, $source, $type, $license,
-                                           $count);
+                                           $count, $fetch_results);
     echo json_encode($results);
 }

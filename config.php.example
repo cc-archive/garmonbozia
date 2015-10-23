@@ -1,6 +1,6 @@
 <?php
 namespace Garmonbozia;
-require('vendor/autoload.php');
+require(__DIR__ . 'vendor/autoload.php');
 class Config {
   static $config_version = 0.1;
   static $connect_string = '';

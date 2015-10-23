@@ -24,11 +24,13 @@
 
 namespace Garmonbozia;
 
-if (!file_exists(dirname(__FILE__) . '/config.php')) {
+$configfilepath = dirname(dirname(__DIR__)) . '/config.php';
+
+if (!file_exists($configfilepath)) {
 	die('Please run the <a href="install.php">Install</a> script to configure your installation');
 }
 
-require_once('config.php');
+require_once($configfilepath);
 
 global $db;
 

@@ -69,5 +69,5 @@ Copy and configure config.php:
 
 Create the template cache directory and make it writable by the web server:
 
-    mkdir themes/cc/templates_c
-    chown www-data:www-data themes/cc/templates_c
+    mkdir application/themes/cc/templates_c
+    chown www-data:www-data application/themes/cc/templates_c

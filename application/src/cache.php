@@ -20,10 +20,10 @@
 
 namespace Garmonbozia;
 
-require_once('utils/caching.php');
+require_once(__DIR__.'/caching.php');
 
 if(Config::$cache_engine == 'redis') {
-    require_once('redis-cache.php');
+    require_once(__DIR__.'/redis-cache.php');
 } else {
-    require_once('filesystem-cache.php');
+    require_once(__DIR__.'/filesystem-cache.php');
 }

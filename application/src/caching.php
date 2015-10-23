@@ -18,9 +18,9 @@
 
  */
 
-namespace Garmonbozia\Utils;
+namespace Garmonbozia;
 
-require_once('integrity.php');
+require_once(__DIR__.'/integrity.php');
 
 class SearchResults {
     public $source;

@@ -19,7 +19,7 @@
 
  */
 
-namespace Garmonbozia\Utils;
+namespace Garmonbozia;
 
 // Parralelize network fetches
 

@@ -19,4 +19,7 @@
 
 */
 
-$version = 0.1;
+namespace Garmonbozia;
+
+$code_version = 0.4;
+$api_version = 1;

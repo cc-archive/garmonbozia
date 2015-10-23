@@ -21,9 +21,9 @@
 
 namespace Garmonbozia\Data;
 
-require_once('search-base.php');
+require_once(dirname(__DIR__).'/application/src/search-base.php');
 
-function fetch_results ($query, $source, $type, $license, $count)
+$fetch_results = function ($query, $source, $type, $license, $count)
 {
     $search = 'https://api.flickr.com/services/rest/'
         . '?method=flickr.photos.search&api_key='
@@ -36,7 +36,7 @@ function fetch_results ($query, $source, $type, $license, $count)
     $contents = file_get_contents($search);
     $json = json_decode($contents, true);
     return regularize_results($json);
-}
+};
 
 function regularize_results ($json) {
     $regularized = array();
@@ -73,4 +73,4 @@ function regularize_results ($json) {
     return $regularized;
 }
 
-search('flickr.com');
+\Garmonbozia\search('flickr.com', $fetch_results);

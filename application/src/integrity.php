@@ -18,9 +18,9 @@
 
 */
 
-namespace Garmonbozia\Utils;
+namespace Garmonbozia;
 
-require_once('config.php');
+require_once(dirname(dirname(__DIR__)).'/config.php');
 
 class Integrity {
 
@@ -31,7 +31,7 @@ class Integrity {
   static function view_params_hash ($license, $type, $site, $title,
                                     $url, $author, $author_url,
                                     $preview_url, $full_url) {
-    $salted_str = \Garmonbozia\Config::$view_hash_salt . $license . $type
+    $salted_str = Config::$view_hash_salt . $license . $type
       . $site . $title . $url . $author . $author_url . $preview_url
       . $full_url;
     $full_hash = md5($salted_str);

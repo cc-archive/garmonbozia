@@ -21,7 +21,7 @@ tramp
 *.rel
 # AUCTeX auto folder
 /auto/
-themes/*/templates_c
+/application/themes/*/templates_c
 /vendor/
 /i/
 /v/

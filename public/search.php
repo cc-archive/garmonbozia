@@ -26,51 +26,12 @@ namespace Garmonbozia;
 
 $search_start_time = microtime(true);
 
-//require_once('database.php');
-require_once('templating.php');
-require_once('cache.php');
-require_once('utils/multicurl.php');
+$root = dirname(__DIR__);
+$srcroot = $root . '/application/src/';
+require_once($root . '/config.php');
+require_once($srcroot . 'templating.php');
 
 $query = $_REQUEST['search'];
-
-// Runs in parallel but waits for all to finish
-//TODO: stream responses via http response chunking
-
-function get_search_results ($type, $license, $count) {
-    $sources = Config::$media_searches[$type];
-    $multicurl = new Utils\MultiCurl();
-    $query_string = '?' . $_SERVER['QUERY_STRING'] . '&count=' . $count;
-    foreach ($sources as $source) {
-        $url = $source . $query_string;
-        $multicurl->addCurl($url, $source);
-    }
-    $multicurl->run();
-    $results = array();
-    $caching = '';
-    foreach ($sources as $source) {
-        $fetched_contents;
-        $err = $multicurl->urlContent($source, $fetched_contents);
-        if ($err == 0) {
-            $foo = json_decode($fetched_contents, true);
-            //FIXME: handle individual cache results
-            $results =
-              array_merge($results,
-                          Utils\attach_info_to_results($foo['results'],
-                                                       $type, $license));
-            $caching .= $foo['source'];
-            $caching .= ' | ';
-            if ($foo['cached']) {
-                $caching .= ' (' . $foo['cache'] . '): ' . $foo['identifier'];
-            } else {
-                $caching .= ': live    ';
-            }
-        } else {
-            //FIXME: handle err
-            error_log($err);
-        }
-    }
-    return ['results' => $results, 'caching' => $caching];
-}
 
 if ($query !="")
 {
@@ -78,16 +39,19 @@ if ($query !="")
     $license = (int) $_REQUEST['license'];
     $count = 20;
 
+    $request = Config::$search_base_url
+                     . 'api/v1/search/?q=' . $query
+                     . '&license=' . $license
+                     . '&type=' . $type
+                     . '&count=' . $count;
+    $results = json_decode(file_get_contents($request), true);
+    error_log($request);
+    error_log(json_encode($results));
+
     $smarty->assign('query', $query);
     $smarty->assign('license', $license);
     $smarty->assign('type', $type);
-
-    $results = get_search_results($type, $license, $count);
-
     $smarty->assign('from', $results['caching']);
-
-    //$foo_of_at_most_requested_length = array_slice($results->results,
-    //                                               0, $count);
     $smarty->assign('results', $results['results']);
     $smarty->assign('query', $query);
     $smarty->assign('baseurl', Config::$base_url);
