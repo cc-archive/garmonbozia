@@ -12,6 +12,11 @@
         "codeception/specify": "*",
         "codeception/verify": "*"
     },
+    "scripts": {
+      "post-update-cmd": [
+        "php script/copy-theme-resources.php"
+      ]
+    },
     "license": "GNU AGPL v3+",
     "authors": [
         {
