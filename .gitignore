@@ -23,10 +23,10 @@ tramp
 /auto/
 /application/themes/*/templates_c
 /vendor/
-/public/i/
-/public/v/
-/public/a/
-/public/b/
+/i/
+/v/
+/a/
+/b/
 config.php
 composer.lock
 tests/_output/*
