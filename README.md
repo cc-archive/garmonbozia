@@ -1,6 +1,6 @@
 ## Want to see your favorite site on our new search tool?
 
-* Make a GitHub issue: https://github.com/creativecommons/garmonbozia/issues/new
+* Make a GitHub issue: https://github.com/cc-archive/garmonbozia/issues/new
 
 ## Who's working on it at Creative Commons?
 
@@ -52,7 +52,7 @@ https://archive.org/advancedsearch.php?q=cat+mediatype%3A%28Image%29&fl%5B%5D=id
 
 Check out this project:
 
-    git clone https://github.com/creativecommons/garmonbozia.git
+    git clone https://github.com/cc-archive/garmonbozia.git
 
 Install php dependencies: php5-curl , php5-redis
 
